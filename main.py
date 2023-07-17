@@ -8,7 +8,7 @@ from pydrive.auth import GoogleAuth
 
 
 def calculate_humidity_and_temperature_delta():
-    df = pd.read_csv(config['raw_data_file'], index_col=0)  # Read the raw data file into a DataFrame
+    df = pd.read_csv(config['raw_data_file'], sep=',', header=0)  # Read the raw data file into a DataFrame
     logging.info(f"load df {df.describe().to_string()}")  # Log information about the loaded DataFrame
 
     # Select the necessary columns and calculate the temperature and the humidit difference from the previous day for each postal code
@@ -39,13 +39,13 @@ def upload():
     for upload_file in os.listdir(config['output_folder']):  # Iterate over files in the output folder
         if upload_file.endswith('json'):  # Check if the file is a JSON file
             cloud_file = drive.CreateFile(
-                {'parents': [{'id': config['folder_id']}], 'title': upload_file})  # Create a file in Google Drive
+                {'parents': [{'id': config['google_drive_folder_id']}], 'title': upload_file})  # Create a file in Google Drive
             with open(os.path.join(config['output_folder'], upload_file)) as file:  # Open the file for reading
                 data = file.read()
                 cloud_file.SetContentString(data)  # Set content of the file from the read data
                 cloud_file.Upload()  # Upload the file to Google Drive
                 logging.info(f"{upload_file} uploaded")
-
+    logging.info(f"upload done successfully")
 
 if __name__ == '__main__':
     calculate_humidity_and_temperature_delta()  # Call the function to calculate humidity and temperature delta

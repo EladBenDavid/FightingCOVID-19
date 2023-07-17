@@ -3,5 +3,6 @@ config = {
     'output_folder': 'output',
     'output_file_prefix': 'COVID-WEATHER-',
     'output_file_suffix': '-FEB-AUG-2020',
-    'folder_id': '13JgCQS1IHx8uBPJE4RL61sJtzw66tw68'
+    'google_drive_folder_id': '1zQZGHNG15qifiaQLITquaGmoL9BvjWb1'
 }
+
