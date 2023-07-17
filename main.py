@@ -22,6 +22,9 @@ def calculate_humidity_and_temperature_delta():
     logging.info(
         f"delta temperature previous day df {df.describe().to_string()}")  # Log information about the modified DataFrame
 
+    if not os.path.exists(config['output_folder']):
+        os.makedirs(config['output_folder'])
+
     for idx, postal_code in df.groupby('postal_code'):  # Group the DataFrame by postal code
         postal_code.to_json(
             f"{config['output_folder']}/{config['output_file_prefix']}{idx}{config['output_file_suffix']}.json",
